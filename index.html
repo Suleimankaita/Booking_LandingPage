@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking App </title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- THEME VARIABLES --- */
+        :root {
+            /* Dark Theme (Default) */
+            --primary: #6c5ce7;
+            --accent: #fbc531;
+            --bg: #0b0e14;
+            --nav-bg: rgba(11, 14, 20, 0.9);
+            --text: #ffffff;
+            --card-bg: #161b22;
+            --border: rgba(255, 255, 255, 0.08);
+            --footer-bg: #080a0f;
+            --hero-gradient: radial-gradient(circle at 50% 40%, rgba(108, 92, 231, 0.1), transparent 60%);
+        }
+
+        [data-theme="light"] {
+            /* Light Theme */
+            --bg: #f5f6fa;
+            --nav-bg: rgba(255, 255, 255, 0.9);
+            --text: #2d3436;
+            --card-bg: #ffffff;
+            --border: rgba(0, 0, 0, 0.08);
+            --footer-bg: #f1f2f6;
+            --hero-gradient: radial-gradient(circle at 50% 40%, rgba(108, 92, 231, 0.05), transparent 60%);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: background 0.4s ease, color 0.4s ease, border 0.3s ease; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 8%; background: var(--nav-bg);
+            backdrop-filter: blur(20px); position: fixed; top: 0; width: 100%; z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+        .logo { font-size: 1.4rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 10px; letter-spacing: -1px;}
+        
+        .nav-actions { display: flex; align-items: center; gap: 15px; }
+
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* --- HERO --- */
+        .hero {
+            min-height: 80vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            padding: 120px 8% 60px;
+            background: var(--hero-gradient);
+        }
+        .hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 800; letter-spacing: -2px; margin-bottom: 1.5rem; line-height: 1.1; }
+        .hero p { max-width: 600px; font-size: clamp(1rem, 2vw, 1.1rem); opacity: 0.7; margin-bottom: 2.5rem; }
+
+        /* --- BUTTONS --- */
+        .btn {
+            padding: 12px 24px; border-radius: 10px; border: none;
+            font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+            font-size: 0.9rem; text-decoration: none;
+        }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4); }
+        
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); width: 100%; justify-content: center; }
+        .btn-outline:hover { background: var(--border); }
+
+        /* --- BOOK GRID --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 8%; }
+        .book-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 2.5rem; 
+        }
+        
+        .book-card {
+            background: var(--card-bg); border-radius: 20px;
+            border: 1px solid var(--border); overflow: hidden;
+            display: flex; flex-direction: column;
+            height: 100%;
+        }
+        .book-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        
+        .card-img { height: 250px; width: 100%; object-fit: cover; }
+
+        .card-body { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
+        .card-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.2rem; color: var(--text); }
+        .card-author { font-size: 0.85rem; opacity: 0.5; margin-bottom: 1.5rem; }
+        .card-buttons { margin-top: auto; }
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--footer-bg);
+            padding: 4rem 8% 2rem;
+            border-top: 1px solid var(--border);
+            margin-top: 6rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        .footer-brand p { margin-top: 1rem; opacity: 0.6; font-size: 0.9rem; max-width: 300px; }
+        .footer-links h4 { margin-bottom: 1.5rem; font-size: 1rem; color: var(--primary); }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 0.8rem; }
+        .footer-links a { text-decoration: none; color: var(--text); opacity: 0.6; font-size: 0.9rem; }
+        .footer-links a:hover { opacity: 1; color: var(--primary); }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            opacity: 0.6;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .creator-tag { color: var(--text); font-weight: 600; text-decoration: none; }
+        .creator-tag span { color: var(--primary); }
+
+        /* --- MODAL --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); display: none; justify-content: center;
+            align-items: center; z-index: 2000; backdrop-filter: blur(10px);
+        }
+        .modal-content {
+            background: var(--card-bg); border: 1px solid var(--border);
+            width: 90%; max-width: 450px; padding: 2.5rem; border-radius: 24px;
+            position: relative; text-align: center;
+            color: var(--text);
+        }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: var(--text); }
+
+        /* --- RESPONSIVENESS --- */
+        @media (max-width: 768px) {
+            nav { padding: 1rem 5%; }
+            .hero { padding-top: 150px; }
+            .logo span:last-child { display: none; } /* Hide text logo on very small screens if needed */
+            .footer-grid { text-align: center; }
+            .footer-bottom { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo"><img style="width: 80px; height: 80px; border-radius: 50%;" src="logo.png" alt="Booking App Logo"></div>
+        <div class="nav-actions">
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
+                🌙 Dark
+            </button>
+            <button class="btn btn-primary" onclick="downloadApp()">Download</button>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>Read Anywhere.<br>Anytime.</h1>
+        <p>Your personal gateway to a world of knowledge. Explore our curated selection of global bestsellers and start your journey today.</p>
+        <a href="#explore" class="btn btn-primary" style="padding: 14px 32px;">Browse Library</a>
+    </header>
+
+    <section class="container" id="explore">
+        <div class="book-grid" id="bookGrid"></div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="logo"><img style="width: 80px; height: 80px; border-radius: 50%;" src="logo.png" alt="Booking App Logo"></div>
+                <p>The premium digital library experience for modern readers. Sync your progress across all your Android devices.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="javascript:void(0)" onclick="downloadApp()">Download APK</a></li>
+                    <li><a href="#">Web Reader</a></li>
+                    <li><a href="#">Release Notes</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Booking App. All rights reserved.</p>
+            <p>Created by <a href="#" class="creator-tag"><span>Ys</span> dev</a></p>
+        </div>
+    </footer>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div id="modalImg" style="height: 140px; width: 100%; border-radius: 12px; margin-bottom: 1.5rem; background-size: cover; background-position: center;"></div>
+            <h2 id="mTitle"></h2>
+            <p id="mDesc" style="opacity: 0.6; font-size: 0.9rem; margin: 1rem 0 2rem;"></p>
+            <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="downloadApp()">
+                Download App to Read
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const books = [
+            {
+                id: 1,
+                title: "The Midnight Library",
+                author: "Matt Haig",
+                image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=800&q=80",
+                desc: "Between life and death there is a library, and within that library, the shelves go on forever. Every book provides a chance to try another life you could have lived."
+            },
+            {
+                id: 2,
+                title: "Thinking, Fast and Slow",
+                author: "Daniel Kahneman",
+                image: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=800&q=80",
+                desc: "The famous psychologist, winner of the Nobel Prize in Economics, takes us on a groundbreaking tour of the mind and explains the two systems that drive the way we think."
+            },
+            {
+                id: 3,
+                title: "The Alchemist",
+                author: "Paulo Coelho",
+                image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=800&q=80",
+                desc: "Combining magic, mysticism, wisdom and wonder into an inspiring tale of self-discovery, The Alchemist has become a modern classic."
+            }
+        ];
+
+        const grid = document.getElementById('bookGrid');
+
+        books.forEach(book => {
+            const card = document.createElement('div');
+            card.className = 'book-card';
+            card.innerHTML = `
+                <img src="${book.image}" class="card-img" alt="${book.title}">
+                <div class="card-body">
+                    <h3 class="card-title">${book.title}</h3>
+                    <p class="card-author">By ${book.author}</p>
+                    <div class="card-buttons">
+                        <button class="btn btn-outline" onclick="openModal(${book.id})">Quick View</button>
+                        <button class="btn btn-primary" style="margin-top:10px; width:100%; justify-content:center;" onclick="downloadApp()">Add to Library</button>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        // Theme Toggle Logic
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.getElementById('themeBtn');
+            const currentTheme = body.getAttribute('data-theme');
+            
+            if (currentTheme === 'light') {
+                body.removeAttribute('data-theme');
+                btn.innerHTML = '🌙 Dark';
+            } else {
+                body.setAttribute('data-theme', 'light');
+                btn.innerHTML = '☀️ Light';
+            }
+        }
+
+        function openModal(id) {
+            const book = books.find(b => b.id === id);
+            document.getElementById('mTitle').innerText = book.title;
+            document.getElementById('mDesc').innerText = book.desc;
+            document.getElementById('modalImg').style.backgroundImage = `url(${book.image})`;
+            document.getElementById('modalOverlay').style.display = 'flex';
+        }
+
+        function closeModal() { document.getElementById('modalOverlay').style.display = 'none'; }
+
+        function downloadApp() {
+            alert("Starting download: BookingApp_v2.apk (34MB)");
+        }
+
+        window.onclick = (e) => { if(e.target.classList.contains('modal-overlay')) closeModal(); }
+    </script>
+</body>
+</html>
