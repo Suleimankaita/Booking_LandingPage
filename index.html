@@ -276,7 +276,7 @@
                     <p class="card-author">By ${book.author}</p>
                     <div class="card-buttons">
                         <button class="btn btn-outline" onclick="openModal(${book.id})">Quick View</button>
-                        <button class="btn btn-primary" style="margin-top:10px; width:100%; justify-content:center;" onclick="downloadApp()">Add to Library</button>
+                        <button class="btn btn-primary" style="margin-top:10px; width:100%; justify-content:center;" onclick="downloadApp()">Download the App to Read </button>
                     </div>
                 </div>
             `;
@@ -308,8 +308,13 @@
 
         function closeModal() { document.getElementById('modalOverlay').style.display = 'none'; }
 
-        function downloadApp() {
-            alert("Starting download: BookingApp_v2.apk (34MB)");
+    function downloadApp() {
+            const link = document.createElement('a');
+            link.href = './BookingApp.apk'; // Ensure this file is in your root folder
+            link.download = 'BookingApp.apk';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         window.onclick = (e) => { if(e.target.classList.contains('modal-overlay')) closeModal(); }
